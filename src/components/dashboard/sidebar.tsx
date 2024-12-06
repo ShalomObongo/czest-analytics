@@ -10,6 +10,7 @@ import {
   Store,
   Truck,
   Droplets,
+  Menu,
 } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
@@ -81,6 +82,8 @@ export function Sidebar() {
 }
 
 export function MobileSidebar() {
+  const pathname = usePathname()
+
   return (
     <Sheet>
       <SheetTrigger asChild>

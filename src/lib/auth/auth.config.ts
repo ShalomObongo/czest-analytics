@@ -2,6 +2,18 @@ import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { z } from "zod"
 
+declare module "next-auth" {
+  interface User {
+    role?: string
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    role?: string
+  }
+}
+
 export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
