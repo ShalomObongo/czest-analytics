@@ -23,23 +23,47 @@ export const STORE_SHEETS = {
   HOMA_BAY: "Homa Bay",
 } as const
 
+export const COLUMNS = {
+  ID: "ID",
+  DATE: "Date",
+  TYPE: "Type",
+  AMOUNT: "Amount",
+  DESCRIPTION: "Description",
+  CATEGORY: "Category",
+} as const
+
 export type StoreSheet = (typeof STORE_SHEETS)[keyof typeof STORE_SHEETS]
+
+let sheetClientInstance: GoogleSpreadsheet | null = null
 
 export const getSheetClient = async () => {
   if (!process.env.GOOGLE_SHEETS_SPREADSHEET_ID) {
     throw new Error("Spreadsheet ID not found in environment variables")
   }
 
-  const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEETS_SPREADSHEET_ID, jwt)
-  await doc.loadInfo()
-  return doc
+  if (!sheetClientInstance) {
+    sheetClientInstance = new GoogleSpreadsheet(process.env.GOOGLE_SHEETS_SPREADSHEET_ID, jwt)
+    await sheetClientInstance.loadInfo()
+  }
+  return sheetClientInstance
 }
 
 export const getStoreSheet = async (storeName: StoreSheet) => {
   const doc = await getSheetClient()
-  const sheet = doc.sheetsByTitle[storeName]
+  let sheet = doc.sheetsByTitle[storeName]
+  
   if (!sheet) {
-    throw new Error(`Sheet not found for store: ${storeName}`)
+    // Create the sheet if it doesn't exist
+    sheet = await doc.addSheet({ title: storeName })
   }
+
+  try {
+    await sheet.loadHeaderRow()
+  } catch (error) {
+    // Initialize headers if they don't exist
+    await sheet.setHeaderRow(Object.values(COLUMNS))
+    await sheet.loadHeaderRow()
+  }
+
   return sheet
 }
