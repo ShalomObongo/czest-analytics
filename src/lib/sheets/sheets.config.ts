@@ -23,6 +23,8 @@ export const STORE_SHEETS = {
   HOMA_BAY: "Homa Bay",
 } as const
 
+export type StoreSheet = (typeof STORE_SHEETS)[keyof typeof STORE_SHEETS]
+
 export const COLUMNS = {
   ID: "ID",
   DATE: "Date",
@@ -32,8 +34,6 @@ export const COLUMNS = {
   CATEGORY: "Category",
 } as const
 
-export type StoreSheet = (typeof STORE_SHEETS)[keyof typeof STORE_SHEETS]
-
 let sheetClientInstance: GoogleSpreadsheet | null = null
 
 export const getSheetClient = async () => {
@@ -41,29 +41,52 @@ export const getSheetClient = async () => {
     throw new Error("Spreadsheet ID not found in environment variables")
   }
 
-  if (!sheetClientInstance) {
-    sheetClientInstance = new GoogleSpreadsheet(process.env.GOOGLE_SHEETS_SPREADSHEET_ID, jwt)
-    await sheetClientInstance.loadInfo()
+  try {
+    if (!sheetClientInstance) {
+      const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEETS_SPREADSHEET_ID, jwt)
+      await doc.loadInfo() // Load document info
+      sheetClientInstance = doc
+    }
+    return sheetClientInstance
+  } catch (error) {
+    console.error("Error initializing Google Sheets client:", error)
+    throw new Error("Failed to initialize Google Sheets client")
   }
-  return sheetClientInstance
 }
 
 export const getStoreSheet = async (storeName: StoreSheet) => {
-  const doc = await getSheetClient()
-  let sheet = doc.sheetsByTitle[storeName]
-  
-  if (!sheet) {
-    // Create the sheet if it doesn't exist
-    sheet = await doc.addSheet({ title: storeName })
-  }
-
   try {
-    await sheet.loadHeaderRow()
-  } catch (error) {
-    // Initialize headers if they don't exist
-    await sheet.setHeaderRow(Object.values(COLUMNS))
-    await sheet.loadHeaderRow()
-  }
+    const doc = await getSheetClient()
+    let sheet = doc.sheetsByTitle[storeName]
+    
+    if (!sheet) {
+      // Create the sheet if it doesn't exist
+      console.log(`Creating new sheet for store: ${storeName}`)
+      sheet = await doc.addSheet({ 
+        title: storeName,
+        headerValues: Object.values(COLUMNS)
+      })
+    }
 
-  return sheet
+    // Always ensure headers are loaded and correct
+    try {
+      const headers = await sheet.headerValues
+      if (!headers || headers.length === 0) {
+        await sheet.setHeaderRow(Object.values(COLUMNS))
+      }
+    } catch (error) {
+      console.log(`Setting headers for sheet: ${storeName}`)
+      await sheet.setHeaderRow(Object.values(COLUMNS))
+    }
+
+    return sheet
+  } catch (error) {
+    console.error(`Error getting sheet for store ${storeName}:`, error)
+    throw new Error(`Failed to get or create sheet for store: ${storeName}`)
+  }
+}
+
+// Utility function to reset the sheet client (useful for testing or error recovery)
+export const resetSheetClient = () => {
+  sheetClientInstance = null
 }
