@@ -2,27 +2,11 @@ import { notFound } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-interface PageProps {
-  params: {
-    storeId: string
-  }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
-async function getStoreData(storeId: string) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/stores/${storeId}`, {
-    next: { revalidate: 60 }, // Revalidate every minute
-  })
-
-  if (!res.ok) {
-    if (res.status === 404) return null
-    throw new Error('Failed to fetch store data')
-  }
-
-  return res.json()
-}
-
-export default async function StorePage({ params }: PageProps) {
+export default async function StorePage({
+  params,
+}: {
+  params: { storeId: string }
+}) {
   const storeData = await getStoreData(params.storeId)
 
   if (!storeData) {
@@ -246,4 +230,17 @@ export default async function StorePage({ params }: PageProps) {
       </Tabs>
     </div>
   )
+}
+
+async function getStoreData(storeId: string) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/stores/${storeId}`, {
+    next: { revalidate: 60 }, // Revalidate every minute
+  })
+
+  if (!res.ok) {
+    if (res.status === 404) return null
+    throw new Error('Failed to fetch store data')
+  }
+
+  return res.json()
 }
