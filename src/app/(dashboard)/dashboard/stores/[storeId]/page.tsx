@@ -2,7 +2,7 @@ import { notFound } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-interface StorePageProps {
+interface PageProps {
   params: {
     storeId: string
   }
@@ -22,7 +22,7 @@ async function getStoreData(storeId: string) {
   return res.json()
 }
 
-export default async function StorePage({ params }: StorePageProps) {
+export default async function StorePage({ params }: PageProps) {
   const storeData = await getStoreData(params.storeId)
 
   if (!storeData) {
