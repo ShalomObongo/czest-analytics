@@ -20,6 +20,7 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: "jwt",
+    maxAge: 24 * 60 * 60, // 24 hours
   },
   providers: [
     CredentialsProvider({
@@ -44,16 +45,15 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
-        // For demo purposes, we'll use a simple check
-        // In production, you should check against a database
+        // Verify against environment variables
         if (
-          parsedCredentials.data.email === "admin@czest.com" &&
-          parsedCredentials.data.password === "admin123"
+          parsedCredentials.data.email === process.env.AUTH_USER_EMAIL &&
+          parsedCredentials.data.password === process.env.AUTH_USER_PASSWORD
         ) {
           return {
             id: "1",
             email: parsedCredentials.data.email,
-            name: "Admin",
+            name: process.env.AUTH_USER_NAME,
             role: "ADMIN",
           }
         }
