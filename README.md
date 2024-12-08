@@ -1,66 +1,74 @@
 <div align="center">
   <img src="public/globe.svg" alt="Czest Analytics Logo" width="120" />
+  <br />
   
-  # ✨ CZest Analytics
+  # ✨ Calm and Zest Analytics
   
-  <p>
-    A sophisticated Next.js application revolutionizing business management with real-time analytics, 
-    intelligent inventory tracking, and seamless delivery management across multiple store locations.
+  <p align="center">
+    <strong>Transform Your Business with AI-Powered Intelligence</strong>
+  </p>
+  
+  <p align="center">
+    A sophisticated Next.js platform revolutionizing business management with real-time analytics, 
+    intelligent inventory tracking, and seamless multi-store operations.
   </p>
 
-  <p>
-    <a href="#-features">Features</a> •
-    <a href="#-getting-started">Getting Started</a> •
-    <a href="#%EF%B8%8F-tech-stack">Tech Stack</a> •
+  <p align="center">
+    <a href="#-key-features">Features</a> •
+    <a href="#-live-demo">Demo</a> •
+    <a href="#-quick-start">Quick Start</a> •
+    <a href="#-tech-stack">Tech Stack</a> •
     <a href="#-architecture">Architecture</a>
   </p>
+
+  <div align="center">
+    <img src="public/dashboard-preview.png" alt="Dashboard Preview" width="800" style="border-radius: 10px; margin: 20px 0;" />
+  </div>
 </div>
 
 ---
 
-## 🎯 Overview
+## 🌊 Overview
 
-Calm and Zest Analytics transforms business operations with its elegant dark-themed interface and powerful Google Sheets integration. Built with modern web technologies, it offers a comprehensive solution for managing multiple store locations, tracking inventory, and analyzing business performance in real-time.
+Calm and Zest Analytics is revolutionizing the business industry with its elegant dark-themed interface and powerful analytics suite. Built with modern web technologies, it offers a comprehensive solution for managing multiple store locations, tracking inventory, and analyzing business performance in real-time.
 
-## 🌟 Features
+## ⚡️ Key Features
+
+### 🎯 Smart Analytics
+- **Real-time Performance Tracking**: Live monitoring of sales, revenue, and inventory
+- **Multi-Store Comparison**: Cross-location performance analysis with visual insights
+- **Trend Analysis**: AI-powered trend detection and forecasting
+- **Custom Reports**: Generate detailed reports with a single click
 
 ### 📦 Inventory Management
-- **Multi-Store Operations**: Seamlessly manage inventory across multiple locations
-- **Smart Categorization**: Efficient organization of products with intelligent category management
-- **Real-time Monitoring**: Live stock level tracking with intelligent alerts
-- **Automated Reordering**: Smart threshold-based reorder notifications
+- **Smart Stock Tracking**: Real-time inventory levels across all locations
+- **Automated Reordering**: AI-driven reorder point calculations
+- **Product Categories**:
+  - Refill Bottles (20L, 10L, 5L)
+  - New Bottles (Full Crate, 500ml, 1L)
+  - Dispensers (Hot & Cold, Normal, Stand)
+  - Accessories (Pumps, Parts, Caps)
 
 ### 🚚 Delivery System
-- **Live Tracking**: Real-time delivery status monitoring (In Transit, Delivered, Pending)
-- **Driver Dashboard**: Comprehensive driver management and assignment system
-- **Smart ETA**: Intelligent arrival time estimation
-- **Visual Status**: Intuitive status indicators using Lucide React icons
+- **Live Tracking**: Real-time delivery status monitoring
+- **Smart Route Planning**: AI-optimized delivery routes
+- **Driver Dashboard**: Comprehensive driver management
+- **Automated ETAs**: Intelligent arrival time predictions
 
-### 📊 Analytics & Reporting
-- **Dynamic Dashboards**: Interactive analytics with radar charts and performance metrics
-- **Store Comparison**: Cross-location performance analysis with visual insights
-- **Revenue Tracking**: Real-time sales and expense monitoring
-- **Trend Analysis**: Visual trend indicators for business metrics
+### 💡 Intelligent Automation
+- **Natural Language Commands**: Input transactions using plain English
+- **Smart Notifications**: Context-aware alerts and reminders
+- **Automated Reporting**: Scheduled report generation
+- **Predictive Analytics**: AI-powered business insights
 
-### 🛠 Technical Excellence
-- **Modern Stack**: 
-  - Next.js 13+ with App Router
-  - Radix UI for accessible components
-  - Tailwind CSS for styling
-  - Lucide React for iconography
-- **Authentication**: 
-  - NextAuth.js with session management
-  - Secure credential handling
-  - Protected API routes
-- **UI Components**:
-  - Responsive Geist-powered interface
-  - Dynamic data tables with advanced filtering
-  - Custom-crafted dark theme
-  - Handpicked Lucide icons
+## 🎨 Beautiful Interface
 
-## 🚀 Getting Started
+- **Dark Theme Optimized**: Easy on the eyes, perfect for long sessions
+- **Responsive Design**: Seamless experience across all devices
+- **Interactive Charts**: Dynamic data visualization
+- **Intuitive Navigation**: User-friendly interface
 
-### Prerequisites
+## 🚀 Quick Start
 
 ```bash
 Node.js >= 15.0.0
@@ -93,9 +101,18 @@ npm install
 npm run dev
 ```
 
+## 🛠 Tech Stack
+
+- **Framework**: Next.js 13+ with App Router
+- **UI Components**: Radix UI + Tailwind CSS
+- **Authentication**: NextAuth.js
+- **Analytics**: Custom analytics engine
+- **Database**: Google Sheets integration
+- **Charts**: Recharts
+- **Icons**: Lucide React
+
 ## 🏗 Architecture
 
-### Component Structure
 ```
 src/
 ├── app/
@@ -114,19 +131,12 @@ src/
 │       └── analytics/
 ```
 
-### Product Categories
-- **Refill Bottles**: 20L, 10L, 5L containers
-- **New Bottles**: Full Crate, 500ml Pack, 1L Pack
-- **Dispensers**: Hot & Cold, Normal, Stand
-- **Accessories**: Water Pump, Parts, Caps
+## 🔐 Security Features
 
-### Store Locations
-- Kilimani
-- South C
-- Obama
-- Homa Bay
-
-## 🎨 UI Components
+- **Enterprise-grade Security**: Robust authentication system
+- **Role-based Access**: Granular permission control
+- **Data Encryption**: Secure data transmission
+- **Session Management**: Secure session handling
 
 ### Dashboard Elements
 - **Store Overview**: Real-time performance metrics
@@ -152,17 +162,20 @@ src/
 - Optimized asset delivery
 - Type-safe operations with TypeScript
 
-## 📚 Documentation
+## 📱 Progressive Web App
 
-Detailed documentation for components and API endpoints is available in the `/docs` directory.
+- **Offline Support**: Work without internet connection
+- **Install on Device**: Add to home screen
+- **Push Notifications**: Stay updated with alerts
+- **Auto Updates**: Always up to date
 
-## 🤝 Contributing
+## 🤝 Support
 
-This is a private project. Please contact project maintainers for contribution guidelines.
+For support, email support@czestanalytics.com or join our Slack channel.
 
-## 📝 License
+## 📄 License
 
-Private and proprietary. All rights reserved.
+Copyright © 2024 Czest Analytics. All rights reserved.
 
 ---
 
