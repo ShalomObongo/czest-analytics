@@ -6,6 +6,7 @@ interface StorePageProps {
   params: {
     storeId: string
   }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
 async function getStoreData(storeId: string) {
