@@ -2,14 +2,16 @@ import { notFound } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-interface PageProps {
-  params: {
+type PageProps = {
+  params: Promise<{
     storeId: string
-  }
+  }>
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
-export default async function StorePage({ params }: PageProps) {
-  const storeData = await getStoreData(params.storeId)
+export default async function StorePage({ params, searchParams }: PageProps) {
+  const { storeId } = await params
+  const storeData = await getStoreData(storeId)
 
   if (!storeData) {
     notFound()
