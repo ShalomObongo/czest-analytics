@@ -35,6 +35,8 @@ export const COLUMNS = {
 } as const
 
 let sheetClientInstance: GoogleSpreadsheet | null = null
+const headerCache = new Map<string, boolean>();
+const HEADER_CACHE_TTL = 3600000; // 1 hour
 
 export const getSheetClient = async () => {
   if (!process.env.GOOGLE_SHEETS_SPREADSHEET_ID) {
@@ -66,17 +68,26 @@ export const getStoreSheet = async (storeName: StoreSheet) => {
         title: storeName,
         headerValues: Object.values(COLUMNS)
       })
+      headerCache.set(storeName, true);
+      return sheet;
     }
 
-    // Always ensure headers are loaded and correct
-    try {
-      const headers = await sheet.headerValues
-      if (!headers || headers.length === 0) {
+    // Check headers only if not cached or cache expired
+    const headersCached = headerCache.get(storeName);
+    if (!headersCached) {
+      try {
+        const headers = await sheet.headerValues
+        if (!headers || headers.length === 0) {
+          await sheet.setHeaderRow(Object.values(COLUMNS))
+        }
+        headerCache.set(storeName, true);
+        // Clear cache after TTL
+        setTimeout(() => headerCache.delete(storeName), HEADER_CACHE_TTL);
+      } catch (error) {
+        console.log(`Setting headers for sheet: ${storeName}`)
         await sheet.setHeaderRow(Object.values(COLUMNS))
+        headerCache.set(storeName, true);
       }
-    } catch (error) {
-      console.log(`Setting headers for sheet: ${storeName}`)
-      await sheet.setHeaderRow(Object.values(COLUMNS))
     }
 
     return sheet

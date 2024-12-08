@@ -14,7 +14,7 @@ export interface Transaction {
 
 // Cache store for API responses
 const cache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_TTL = 60000; // 1 minute cache
+const CACHE_TTL = 300000; // 5 minutes cache
 const REQUEST_DELAY = 100; // 100ms delay between requests
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -167,91 +167,66 @@ function rowToTransaction(row: GoogleSpreadsheetRow): Transaction {
   }
 }
 
-export async function getStoreRevenue(
+export async function getStoreMetrics(
   store: StoreSheet,
   startDate?: string,
   endDate?: string
 ) {
-  const cacheKey = `store-revenue-${store}-${startDate}-${endDate}`;
+  const cacheKey = `store-metrics-${store}-${startDate}-${endDate}`;
   return getCachedData(cacheKey, async () => {
-    const transactions = await getTransactions(store, {
-      type: "REVENUE",
-      startDate,
-      endDate,
-    })
-
-    return transactions.reduce((sum: number, transaction: Transaction) => sum + transaction.amount, 0)
-  })
-}
-
-export async function getStoreExpenses(
-  store: StoreSheet,
-  startDate?: string,
-  endDate?: string
-) {
-  const cacheKey = `store-expenses-${store}-${startDate}-${endDate}`;
-  return getCachedData(cacheKey, async () => {
-    const transactions = await getTransactions(store, {
-      type: "EXPENSE",
-      startDate,
-      endDate,
-    })
-
-    return transactions.reduce((sum: number, transaction: Transaction) => sum + transaction.amount, 0)
-  })
-}
-
-export async function getStoreProfits(
-  store: StoreSheet,
-  startDate?: string,
-  endDate?: string
-) {
-  const cacheKey = `store-profits-${store}-${startDate}-${endDate}`;
-  return getCachedData(cacheKey, async () => {
-    const [revenue, expenses] = await Promise.all([
-      getStoreRevenue(store, startDate, endDate),
-      getStoreExpenses(store, startDate, endDate),
-    ])
-
-    return revenue - expenses
-  })
+    const sheet = await getStoreSheet(store);
+    const rows = await sheet.getRows();
+    
+    let revenue = 0;
+    let expenses = 0;
+    
+    rows.forEach(row => {
+      const date = row.get(COLUMNS.DATE);
+      const type = row.get(COLUMNS.TYPE);
+      const amount = parseFloat(row.get(COLUMNS.AMOUNT));
+      
+      if ((!startDate || date >= startDate) && (!endDate || date <= endDate)) {
+        if (type === 'REVENUE') {
+          revenue += amount;
+        } else if (type === 'EXPENSE') {
+          expenses += amount;
+        }
+      }
+    });
+    
+    return { revenue, expenses, profit: revenue - expenses };
+  });
 }
 
 export async function getAllStoresMetrics(startDate?: string, endDate?: string) {
-  const stores = Object.values(STORE_SHEETS)
+  const stores = Object.values(STORE_SHEETS);
   const metrics = await Promise.all(
     stores.map(async (store) => {
-      const [revenue, expenses] = await Promise.all([
-        getStoreRevenue(store, startDate, endDate),
-        getStoreExpenses(store, startDate, endDate),
-      ])
-
+      const metrics = await getStoreMetrics(store, startDate, endDate);
       return {
         store,
-        revenue,
-        expenses,
-        profit: revenue - expenses,
-      }
+        ...metrics
+      };
     })
-  )
+  );
 
-  return metrics
+  return metrics;
 }
 
-export async function getTransactionCategories(store: StoreSheet) {
-  const cacheKey = `transaction-categories-${store}`;
-  return getCachedData(cacheKey, async () => {
-    const sheet = await getStoreSheet(store)
-    const rows = await sheet.getRows()
-    
-    const categories = new Set<string>()
-    rows.forEach(row => {
-      const category = row.get(COLUMNS.CATEGORY)
-      if (category) categories.add(category)
-    })
+// Deprecate these individual functions as they're now combined in getStoreMetrics
+export async function getStoreRevenue(store: StoreSheet, startDate?: string, endDate?: string) {
+  const metrics = await getStoreMetrics(store, startDate, endDate);
+  return metrics.revenue;
+}
 
-    return Array.from(categories)
-  })
+export async function getStoreExpenses(store: StoreSheet, startDate?: string, endDate?: string) {
+  const metrics = await getStoreMetrics(store, startDate, endDate);
+  return metrics.expenses;
+}
+
+export async function getStoreProfits(store: StoreSheet, startDate?: string, endDate?: string) {
+  const metrics = await getStoreMetrics(store, startDate, endDate);
+  return metrics.profit;
 }
 
 export async function getStoreRevenueAnalytics(
@@ -332,4 +307,20 @@ export async function getAllStoresMetricsAnalytics(startDate?: string, endDate?:
     }))
   )
   return metrics
+}
+
+export async function getTransactionCategories(store: StoreSheet) {
+  const cacheKey = `transaction-categories-${store}`;
+  return getCachedData(cacheKey, async () => {
+    const sheet = await getStoreSheet(store)
+    const rows = await sheet.getRows()
+    
+    const categories = new Set<string>()
+    rows.forEach(row => {
+      const category = row.get(COLUMNS.CATEGORY)
+      if (category) categories.add(category)
+    })
+
+    return Array.from(categories)
+  })
 }
