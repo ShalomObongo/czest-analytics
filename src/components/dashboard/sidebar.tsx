@@ -44,11 +44,6 @@ const routes = [
     href: "/dashboard/inventory",
   },
   {
-    label: "Deliveries",
-    icon: Truck,
-    href: "/dashboard/deliveries",
-  },
-  {
     label: "Settings",
     icon: Settings,
     href: "/dashboard/settings",
@@ -59,7 +54,7 @@ export function Sidebar() {
   const pathname = usePathname()
 
   return (
-    <div className="hidden lg:flex lg:flex-col lg:w-64 lg:border-r lg:border-slate-800 bg-slate-950">
+    <div className="hidden lg:flex lg:flex-col lg:w-64 lg:border-r border-border bg-background">
       <ScrollArea className="flex-1 p-4">
         <nav className="flex flex-col gap-2">
           {routes.map((route) => (
@@ -67,8 +62,8 @@ export function Sidebar() {
               key={route.href}
               href={route.href}
               className={cn(
-                "flex items-center gap-2 rounded-lg px-3 py-2 text-slate-300 transition-colors hover:text-white",
-                pathname === route.href && "bg-slate-800 text-white"
+                "flex items-center gap-2 rounded-lg px-3 py-2 text-muted-foreground transition-colors hover:text-foreground",
+                pathname === route.href && "bg-muted text-foreground"
               )}
             >
               <route.icon className="h-5 w-5" />
@@ -92,11 +87,11 @@ export function MobileSidebar() {
           <Menu className="h-6 w-6" />
         </button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-64 bg-slate-950 p-0">
+      <SheetContent side="left" className="w-64 bg-background p-0">
         <SheetHeader className="p-4">
-          <SheetTitle className="text-white">Navigation</SheetTitle>
+          <SheetTitle>Navigation</SheetTitle>
         </SheetHeader>
-        <Separator className="bg-slate-800" />
+        <Separator />
         <ScrollArea className="flex-1 p-4">
           <nav className="flex flex-col gap-2">
             {routes.map((route) => (
@@ -104,8 +99,8 @@ export function MobileSidebar() {
                 key={route.href}
                 href={route.href}
                 className={cn(
-                  "flex items-center gap-2 rounded-lg px-3 py-2 text-slate-300 transition-colors hover:text-white",
-                  pathname === route.href && "bg-slate-800 text-white"
+                  "flex items-center gap-2 rounded-lg px-3 py-2 text-muted-foreground transition-colors hover:text-foreground",
+                  pathname === route.href && "bg-muted text-foreground"
                 )}
               >
                 <route.icon className="h-5 w-5" />
