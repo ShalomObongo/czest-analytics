@@ -4,11 +4,8 @@ import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { StoreOverview } from "@/components/dashboard/store-overview"
 import {
-  BarChart3,
   DollarSign,
   ShoppingCart,
-  Users,
-  Droplets,
   MinusCircle,
 } from "lucide-react"
 

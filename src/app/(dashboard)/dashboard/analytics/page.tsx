@@ -1,13 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { RevenueAnalytics } from "@/components/dashboard/analytics/revenue-analytics"
 import { SalesAnalytics } from "@/components/dashboard/analytics/sales-analytics"
 import { StoreComparison } from "@/components/dashboard/analytics/store-comparison"
 import { TrendAnalysis } from "@/components/dashboard/analytics/trend-analysis"
-import { getCurrentDate, formatDate } from "@/lib/utils"
 
 type TimeFrame = "TODAY" | "THIS_WEEK" | "THIS_MONTH"
 
