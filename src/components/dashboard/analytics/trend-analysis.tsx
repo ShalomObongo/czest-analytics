@@ -1,180 +1,173 @@
+"use client"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { TrendingUp, TrendingDown, AlertTriangle } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { TrendingUp, TrendingDown } from "lucide-react"
 
-const trends = [
-  {
-    category: "Revenue Growth",
-    current: "+15.2%",
-    previous: "+12.8%",
-    status: "up",
-    insight: "Consistent growth trend, exceeding targets",
-  },
-  {
-    category: "Customer Retention",
-    current: "78.5%",
-    previous: "75.2%",
-    status: "up",
-    insight: "Improved customer loyalty",
-  },
-  {
-    category: "Average Order Value",
-    current: "701",
-    previous: "685",
-    status: "up",
-    insight: "Higher value purchases",
-  },
-  {
-    category: "Stock Turnover",
-    current: "4.2x",
-    previous: "4.5x",
-    status: "down",
-    insight: "Slight decrease in inventory efficiency",
-  },
+interface TrendAnalysisProps {
+  data: {
+    stores: Array<{
+      store: string
+      revenue: number
+      expenses: number
+      profit: number
+    }>
+    timeframe: string
+    period: {
+      startDate: string
+      endDate: string
+    }
+  }
+  timeframe: "TODAY" | "THIS_WEEK" | "THIS_MONTH"
+  onTimeframeChange: (timeframe: "TODAY" | "THIS_WEEK" | "THIS_MONTH") => void
+}
+
+const timeframeOptions = [
+  { value: "TODAY", label: "Today" },
+  { value: "THIS_WEEK", label: "This Week" },
+  { value: "THIS_MONTH", label: "This Month" },
 ]
 
-const insights = [
-  {
-    title: "Peak Hours Shift",
-    description: "Morning sales (6 AM - 9 AM) have increased by 25%",
-    impact: "high",
-    action: "Consider increasing morning staff",
-  },
-  {
-    title: "Product Mix Change",
-    description: "20L refills now account for 45% of revenue, up from 38%",
-    impact: "medium",
-    action: "Optimize inventory for high-demand items",
-  },
-  {
-    title: "Seasonal Pattern",
-    description: "Sales spike during hot weather periods",
-    impact: "high",
-    action: "Prepare inventory for upcoming season",
-  },
-  {
-    title: "Customer Behavior",
-    description: "85% of customers prefer mobile payments",
-    impact: "medium",
-    action: "Streamline mobile payment process",
-  },
-]
+export function TrendAnalysis({ data, timeframe, onTimeframeChange }: TrendAnalysisProps) {
+  // Calculate store performance metrics
+  const storeMetrics = data.stores.map(store => ({
+    store: store.store,
+    profitMargin: ((store.profit / store.revenue) * 100).toFixed(1),
+    expenseRatio: ((store.expenses / store.revenue) * 100).toFixed(1),
+    revenueShare: ((store.revenue / data.stores.reduce((sum, s) => sum + s.revenue, 0)) * 100).toFixed(1)
+  }))
 
-export function TrendAnalysis() {
+  // Sort stores by profit margin
+  const sortedByProfitMargin = [...storeMetrics].sort((a, b) => parseFloat(b.profitMargin) - parseFloat(a.profitMargin))
+  const bestPerformer = sortedByProfitMargin[0]
+  const worstPerformer = sortedByProfitMargin[sortedByProfitMargin.length - 1]
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h3 className="text-2xl font-bold text-white">Trend Analysis</h3>
+          <h3 className="text-2xl font-bold text-white">Performance Trends</h3>
           <p className="text-sm text-slate-400">
-            Key trends and business insights
+            Analyzing store performance metrics
           </p>
         </div>
-        <Select defaultValue="30d">
+        <Select 
+          value={timeframe} 
+          onValueChange={(value) => onTimeframeChange(value as "TODAY" | "THIS_WEEK" | "THIS_MONTH")}
+        >
           <SelectTrigger className="w-[180px] bg-slate-800/50 border-slate-700 text-slate-200">
             <SelectValue placeholder="Select time range" />
           </SelectTrigger>
           <SelectContent className="bg-slate-800 border-slate-700">
-            <SelectItem
-              value="7d"
-              className="text-slate-200 focus:bg-slate-700 focus:text-slate-200"
-            >
-              Last 7 Days
-            </SelectItem>
-            <SelectItem
-              value="30d"
-              className="text-slate-200 focus:bg-slate-700 focus:text-slate-200"
-            >
-              Last 30 Days
-            </SelectItem>
-            <SelectItem
-              value="3m"
-              className="text-slate-200 focus:bg-slate-700 focus:text-slate-200"
-            >
-              Last 3 Months
-            </SelectItem>
+            {timeframeOptions.map((option) => (
+              <SelectItem
+                key={option.value}
+                value={option.value}
+                className="text-slate-200 focus:bg-slate-700 focus:text-slate-200"
+              >
+                {option.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card className="bg-slate-800/50 border-slate-700">
-          <CardHeader>
-            <CardTitle className="text-slate-200">Key Metrics Trends</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-slate-200">
+              Best Profit Margin
+            </CardTitle>
+            <TrendingUp className="h-4 w-4 text-emerald-400" />
           </CardHeader>
           <CardContent>
-            <div className="space-y-6">
-              {trends.map((trend) => (
-                <div
-                  key={trend.category}
-                  className="flex items-center justify-between border-b border-slate-700 pb-4 last:border-0 last:pb-0"
-                >
-                  <div>
-                    <p className="font-medium text-slate-200">{trend.category}</p>
-                    <p className="text-sm text-slate-400">Previous: {trend.previous}</p>
-                  </div>
-                  <div className="text-right">
-                    <p
-                      className={`font-medium flex items-center gap-1 ${
-                        trend.status === "up"
-                          ? "text-emerald-400"
-                          : "text-red-400"
-                      }`}
-                    >
-                      {trend.status === "up" ? (
-                        <TrendingUp className="h-4 w-4" />
-                      ) : (
-                        <TrendingDown className="h-4 w-4" />
-                      )}
-                      {trend.current}
-                    </p>
-                    <p className="text-sm text-slate-400">{trend.insight}</p>
-                  </div>
-                </div>
-              ))}
+            <div className="text-2xl font-bold text-white">
+              {bestPerformer.profitMargin}%
             </div>
+            <p className="text-xs text-slate-400">{bestPerformer.store}</p>
           </CardContent>
         </Card>
 
         <Card className="bg-slate-800/50 border-slate-700">
-          <CardHeader>
-            <CardTitle className="text-slate-200">Business Insights</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-slate-200">
+              Lowest Profit Margin
+            </CardTitle>
+            <TrendingDown className="h-4 w-4 text-red-400" />
           </CardHeader>
           <CardContent>
-            <div className="space-y-6">
-              {insights.map((insight) => (
-                <div
-                  key={insight.title}
-                  className="border-b border-slate-700 pb-4 last:border-0 last:pb-0"
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <AlertTriangle
-                      className={`h-4 w-4 ${
-                        insight.impact === "high"
-                          ? "text-amber-400"
-                          : "text-blue-400"
-                      }`}
-                    />
-                    <p className="font-medium text-slate-200">{insight.title}</p>
-                  </div>
-                  <p className="text-sm text-slate-400 mb-2">
-                    {insight.description}
-                  </p>
-                  <p className="text-sm text-slate-500">
-                    Recommended Action: {insight.action}
-                  </p>
-                </div>
-              ))}
+            <div className="text-2xl font-bold text-white">
+              {worstPerformer.profitMargin}%
             </div>
+            <p className="text-xs text-slate-400">{worstPerformer.store}</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-800/50 border-slate-700">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-slate-200">
+              Average Profit Margin
+            </CardTitle>
+            <TrendingUp className="h-4 w-4 text-blue-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">
+              {(storeMetrics.reduce((sum, store) => sum + parseFloat(store.profitMargin), 0) / storeMetrics.length).toFixed(1)}%
+            </div>
+            <p className="text-xs text-slate-400">Across all stores</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-800/50 border-slate-700">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-slate-200">
+              Average Expense Ratio
+            </CardTitle>
+            <TrendingDown className="h-4 w-4 text-amber-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">
+              {(storeMetrics.reduce((sum, store) => sum + parseFloat(store.expenseRatio), 0) / storeMetrics.length).toFixed(1)}%
+            </div>
+            <p className="text-xs text-slate-400">Of revenue</p>
           </CardContent>
         </Card>
       </div>
+
+      <Card className="bg-slate-800/50 border-slate-700">
+        <CardHeader>
+          <CardTitle className="text-slate-200">Store Performance Metrics</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            {storeMetrics.map((store) => (
+              <div key={store.store} className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium leading-none text-slate-200">
+                      {store.store}
+                    </p>
+                    <div className="flex gap-4 text-sm text-slate-400">
+                      <span>Profit: {store.profitMargin}%</span>
+                      <span>Expenses: {store.expenseRatio}%</span>
+                      <span>Revenue Share: {store.revenueShare}%</span>
+                    </div>
+                  </div>
+                  <TrendingUp className={`h-4 w-4 ${parseFloat(store.profitMargin) >= 20 ? 'text-emerald-400' : 'text-red-400'}`} />
+                </div>
+                <div className="h-2 rounded-full bg-slate-700">
+                  <div
+                    className="h-2 rounded-full bg-emerald-400"
+                    style={{
+                      width: `${store.profitMargin}%`,
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }

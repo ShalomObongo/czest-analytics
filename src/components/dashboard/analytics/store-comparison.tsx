@@ -1,131 +1,92 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { DollarSign, TrendingUp, ShoppingCart, Droplets } from "lucide-react"
+"use client"
 
-const stores = [
-  {
-    id: "kilimani",
-    name: "Kilimani",
-    revenue: "125,000",
-    sales: 234,
-    stock: 567,
-    trend: "+12.5%",
-  },
-  {
-    id: "southc",
-    name: "South C",
-    revenue: "98,500",
-    sales: 189,
-    stock: 432,
-    trend: "+8.3%",
-  },
-  {
-    id: "obama",
-    name: "Obama",
-    revenue: "78,900",
-    sales: 156,
-    stock: 345,
-    trend: "+15.2%",
-  },
-  {
-    id: "homabay",
-    name: "Homa Bay",
-    revenue: "112,300",
-    sales: 198,
-    stock: 489,
-    trend: "+10.7%",
-  },
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Store } from "lucide-react"
+
+interface StoreComparisonProps {
+  data: {
+    stores: Array<{
+      store: string
+      revenue: number
+      expenses: number
+      profit: number
+    }>
+    timeframe: string
+    period: {
+      startDate: string
+      endDate: string
+    }
+  }
+  timeframe: "TODAY" | "THIS_WEEK" | "THIS_MONTH"
+  onTimeframeChange: (timeframe: "TODAY" | "THIS_WEEK" | "THIS_MONTH") => void
+}
+
+const timeframeOptions = [
+  { value: "TODAY", label: "Today" },
+  { value: "THIS_WEEK", label: "This Week" },
+  { value: "THIS_MONTH", label: "This Month" },
 ]
 
-export function StoreComparison() {
+export function StoreComparison({ data, timeframe, onTimeframeChange }: StoreComparisonProps) {
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-200">
-              Total Revenue
-            </CardTitle>
-            <DollarSign className="h-4 w-4 text-emerald-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-white">KES 414,700</div>
-            <p className="text-xs text-emerald-400 flex items-center gap-1">
-              <TrendingUp className="h-3 w-3" />
-              +11.2% from last month
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-200">
-              Total Sales
-            </CardTitle>
-            <ShoppingCart className="h-4 w-4 text-blue-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-white">777</div>
-            <p className="text-xs text-blue-400 flex items-center gap-1">
-              <TrendingUp className="h-3 w-3" />
-              +8.9% from last month
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-200">
-              Total Stock
-            </CardTitle>
-            <Droplets className="h-4 w-4 text-cyan-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-white">1,833</div>
-            <p className="text-xs text-slate-400">Across all stores</p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-200">
-              Average Revenue
-            </CardTitle>
-            <DollarSign className="h-4 w-4 text-purple-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-white">KES 103,675</div>
-            <p className="text-xs text-slate-400">Per store</p>
-          </CardContent>
-        </Card>
+      <div className="flex items-center justify-between">
+        <div className="space-y-1">
+          <h3 className="text-2xl font-bold text-white">Store Comparison</h3>
+          <p className="text-sm text-slate-400">
+            Compare performance across all stores
+          </p>
+        </div>
+        <Select 
+          value={timeframe} 
+          onValueChange={(value) => onTimeframeChange(value as "TODAY" | "THIS_WEEK" | "THIS_MONTH")}
+        >
+          <SelectTrigger className="w-[180px] bg-slate-800/50 border-slate-700 text-slate-200">
+            <SelectValue placeholder="Select time range" />
+          </SelectTrigger>
+          <SelectContent className="bg-slate-800 border-slate-700">
+            {timeframeOptions.map((option) => (
+              <SelectItem
+                key={option.value}
+                value={option.value}
+                className="text-slate-200 focus:bg-slate-700 focus:text-slate-200"
+              >
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
-      <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
         <Card className="bg-slate-800/50 border-slate-700">
           <CardHeader>
-            <CardTitle className="text-slate-200">Store Performance</CardTitle>
+            <CardTitle className="text-slate-200">Revenue Comparison</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
-              {stores.map((store) => (
-                <div key={store.id} className="space-y-2">
+              {data.stores.map((store) => (
+                <div key={store.store} className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium leading-none text-slate-200">
-                        {store.name}
-                      </p>
-                      <p className="text-sm text-slate-400">
-                        {store.sales} sales • KES {store.revenue}
+                    <div className="flex items-center gap-2">
+                      <Store className="h-4 w-4 text-blue-400" />
+                      <p className="text-sm font-medium text-slate-200">
+                        {store.store}
                       </p>
                     </div>
-                    <p className="text-emerald-400">{store.trend}</p>
+                    <p className="text-sm text-blue-400">
+                      KES {store.revenue.toFixed(2)}
+                    </p>
                   </div>
                   <div className="h-2 rounded-full bg-slate-700">
                     <div
-                      className="h-2 rounded-full bg-emerald-400"
+                      className="h-2 rounded-full bg-blue-400"
                       style={{
-                        width: `${
-                          (parseInt(store.revenue.replace(/,/g, "")) / 125000) * 100
-                        }%`,
+                        width: `${Math.min(
+                          (store.revenue / Math.max(...data.stores.map(s => s.revenue))) * 100,
+                          100
+                        )}%`,
                       }}
                     />
                   </div>
@@ -137,28 +98,31 @@ export function StoreComparison() {
 
         <Card className="bg-slate-800/50 border-slate-700">
           <CardHeader>
-            <CardTitle className="text-slate-200">Stock Distribution</CardTitle>
+            <CardTitle className="text-slate-200">Profit Comparison</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
-              {stores.map((store) => (
-                <div key={store.id} className="space-y-2">
+              {data.stores.map((store) => (
+                <div key={store.store} className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium leading-none text-slate-200">
-                        {store.name}
-                      </p>
-                      <p className="text-sm text-slate-400">
-                        {store.stock} units in stock
+                    <div className="flex items-center gap-2">
+                      <Store className="h-4 w-4 text-emerald-400" />
+                      <p className="text-sm font-medium text-slate-200">
+                        {store.store}
                       </p>
                     </div>
-                    <p className="text-cyan-400">{Math.round((store.stock / 1833) * 100)}%</p>
+                    <p className="text-sm text-emerald-400">
+                      KES {store.profit.toFixed(2)}
+                    </p>
                   </div>
                   <div className="h-2 rounded-full bg-slate-700">
                     <div
-                      className="h-2 rounded-full bg-cyan-400"
+                      className="h-2 rounded-full bg-emerald-400"
                       style={{
-                        width: `${(store.stock / 567) * 100}%`,
+                        width: `${Math.min(
+                          (store.profit / Math.max(...data.stores.map(s => s.profit))) * 100,
+                          100
+                        )}%`,
                       }}
                     />
                   </div>

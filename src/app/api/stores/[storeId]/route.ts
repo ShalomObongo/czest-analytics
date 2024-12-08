@@ -21,7 +21,7 @@ export async function GET(
 ) {
   try {
     // Await the storeId parameter
-    const storeId = await params.storeId;
+    const storeId = params.storeId;
     const storeKey = storeId.toUpperCase() as keyof typeof STORE_SHEETS
     const storeName = STORE_SHEETS[storeKey]
 
