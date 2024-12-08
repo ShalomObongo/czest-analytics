@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Store, TrendingUp, ShoppingCart, Droplets } from "lucide-react"
+import { Store, TrendingUp, ShoppingCart } from "lucide-react"
 
 interface StoreCardProps {
   store: {
@@ -8,7 +8,6 @@ interface StoreCardProps {
     name: string
     revenue: string
     sales: number
-    stock: number
     trend: string
   }
 }
@@ -26,7 +25,7 @@ export function StoreCard({ store }: StoreCardProps) {
         <CardContent>
           <div className="space-y-4">
             <div className="space-y-2">
-              <p className="text-sm text-slate-400">Revenue</p>
+              <p className="text-sm text-slate-400">Revenue Today</p>
               <div className="flex items-center gap-2">
                 <span className="text-2xl font-bold text-white">
                   KES {store.revenue}
@@ -37,21 +36,12 @@ export function StoreCard({ store }: StoreCardProps) {
                 </span>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-700">
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-2 text-slate-400">
-                  <ShoppingCart className="h-4 w-4" />
-                  <span className="text-sm">Sales</span>
-                </div>
-                <p className="text-white font-semibold">{store.sales}</p>
+            <div className="flex items-center gap-2 pt-4 border-t border-slate-700">
+              <div className="flex items-center gap-2 text-slate-400">
+                <ShoppingCart className="h-4 w-4" />
+                <span className="text-sm">Sales</span>
               </div>
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-2 text-slate-400">
-                  <Droplets className="h-4 w-4" />
-                  <span className="text-sm">Stock</span>
-                </div>
-                <p className="text-white font-semibold">{store.stock}</p>
-              </div>
+              <p className="text-white font-semibold ml-auto">{store.sales}</p>
             </div>
           </div>
         </CardContent>
