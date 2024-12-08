@@ -30,6 +30,8 @@ const timeframeOptions = [
 
 export function RevenueAnalytics({ data, timeframe, onTimeframeChange }: RevenueAnalyticsProps) {
   const totalRevenue = data.stores.reduce((sum, store) => sum + store.revenue, 0)
+  const totalExpenses = data.stores.reduce((sum, store) => sum + store.expenses, 0)
+  const totalProfit = data.stores.reduce((sum, store) => sum + store.profit, 0)
   const averageRevenue = totalRevenue / data.stores.length
 
   return (
@@ -38,7 +40,7 @@ export function RevenueAnalytics({ data, timeframe, onTimeframeChange }: Revenue
         <div className="space-y-1">
           <h3 className="text-2xl font-bold">Revenue Analysis</h3>
           <p className="text-sm text-muted-foreground">
-            Detailed revenue metrics across all stores
+            Comprehensive view of revenue performance
           </p>
         </div>
         <Select 
@@ -61,7 +63,7 @@ export function RevenueAnalytics({ data, timeframe, onTimeframeChange }: Revenue
         </Select>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
@@ -70,15 +72,45 @@ export function RevenueAnalytics({ data, timeframe, onTimeframeChange }: Revenue
             <DollarSign className="h-4 w-4 text-emerald-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              KES {totalRevenue.toFixed(2)}
-            </div>
+            <div className="text-2xl font-bold">KES {totalRevenue.toFixed(2)}</div>
             <p className="text-xs text-muted-foreground">
               {data.period.startDate} to {data.period.endDate}
             </p>
           </CardContent>
         </Card>
 
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Total Expenses
+            </CardTitle>
+            <DollarSign className="h-4 w-4 text-destructive" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">KES {totalExpenses.toFixed(2)}</div>
+            <p className="text-xs text-muted-foreground">
+              {data.period.startDate} to {data.period.endDate}
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Total Profit
+            </CardTitle>
+            <DollarSign className="h-4 w-4 text-blue-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">KES {totalProfit.toFixed(2)}</div>
+            <p className="text-xs text-muted-foreground">
+              {data.period.startDate} to {data.period.endDate}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">

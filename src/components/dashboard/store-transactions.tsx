@@ -51,7 +51,7 @@ const transactions = [
 export function StoreTransactions({ storeId }: StoreTransactionsProps) {
   return (
     <div className="space-y-6">
-      <Card >
+      <Card className="bg-card">
         <CardHeader>
           <CardTitle>Recent Transactions</CardTitle>
         </CardHeader>

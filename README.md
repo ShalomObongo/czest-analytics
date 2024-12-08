@@ -1,51 +1,76 @@
-# Czest Analytics
+<div align="center">
+  <img src="public/globe.svg" alt="Czest Analytics Logo" width="120" />
+  
+  # ✨ CZest Analytics
+  
+  <p>
+    A sophisticated Next.js application revolutionizing water business management with real-time analytics, 
+    intelligent inventory tracking, and seamless delivery management across multiple store locations.
+  </p>
 
-A modern Next.js application for comprehensive water business management, featuring inventory tracking, delivery management, and real-time analytics across multiple store locations. Built with a beautiful dark-themed UI and powerful backend integration with Google Sheets.
+  <p>
+    <a href="#-features">Features</a> •
+    <a href="#-getting-started">Getting Started</a> •
+    <a href="#%EF%B8%8F-tech-stack">Tech Stack</a> •
+    <a href="#-architecture">Architecture</a>
+  </p>
+</div>
+
+---
+
+## 🎯 Overview
+
+Calm and Zest Analytics transforms water business operations with its elegant dark-themed interface and powerful Google Sheets integration. Built with modern web technologies, it offers a comprehensive solution for managing multiple store locations, tracking inventory, and analyzing business performance in real-time.
 
 ## 🌟 Features
 
-### Inventory Management
-- **Multi-Store Management**: Track inventory across multiple locations (Kilimani, South C, Obama, Homa Bay)
-- **Product Categories**: Organize products into categories (Refill Bottles, New Bottles, Dispensers, Accessories)
-- **Stock Tracking**: Real-time monitoring of stock levels with automatic low stock alerts
-- **Smart Reorder Points**: Automated notifications when inventory reaches reorder thresholds
+### 📦 Inventory Management
+- **Multi-Store Operations**: Seamlessly manage inventory across multiple locations
+- **Smart Categorization**: Efficient organization of products with intelligent category management
+- **Real-time Monitoring**: Live stock level tracking with intelligent alerts
+- **Automated Reordering**: Smart threshold-based reorder notifications
 
-### Delivery System
-- **Real-time Delivery Tracking**: Monitor deliveries with status updates (In Transit, Delivered, Pending)
-- **Driver Management**: Assign and track drivers for each delivery
-- **ETA Monitoring**: Track estimated arrival times for all deliveries
-- **Status Updates**: Visual indicators for delivery status with intuitive icons
+### 🚚 Delivery System
+- **Live Tracking**: Real-time delivery status monitoring (In Transit, Delivered, Pending)
+- **Driver Dashboard**: Comprehensive driver management and assignment system
+- **Smart ETA**: Intelligent arrival time estimation
+- **Visual Status**: Intuitive status indicators using Lucide React icons
 
-### Analytics & Reporting
-- **Real-time Analytics**: Instant insights into business performance
-- **Smart Reports**: Generate detailed reports with a single click
-- **Store-wise Analysis**: Compare performance across different store locations
-- **Category-wise Tracking**: Monitor performance by product categories
+### 📊 Analytics & Reporting
+- **Dynamic Dashboards**: Interactive analytics with radar charts and performance metrics
+- **Store Comparison**: Cross-location performance analysis with visual insights
+- **Revenue Tracking**: Real-time sales and expense monitoring
+- **Trend Analysis**: Visual trend indicators for business metrics
 
-### Technical Features
-- **Google Sheets Integration**: 
-  - Robust data persistence with Google Sheets API
-  - Smart caching system with 1-minute TTL
-  - Rate limiting and request throttling
-  - Exponential backoff for API requests
-- **Modern UI Components**:
-  - Responsive dashboard layout
-  - Interactive data tables with search and filtering
-  - Beautiful dark theme with consistent styling
-  - Custom icons and visual indicators
+### 🛠 Technical Excellence
+- **Modern Stack**: 
+  - Next.js 13+ with App Router
+  - Radix UI for accessible components
+  - Tailwind CSS for styling
+  - Lucide React for iconography
+- **Authentication**: 
+  - NextAuth.js with session management
+  - Secure credential handling
+  - Protected API routes
+- **UI Components**:
+  - Responsive Geist-powered interface
+  - Dynamic data tables with advanced filtering
+  - Custom-crafted dark theme
+  - Handpicked Lucide icons
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js (v15 or higher)
-- npm or yarn
-- Google Cloud Platform account with Sheets API enabled
-- Google Service Account with appropriate permissions
+```bash
+Node.js >= 15.0.0
+npm >= 7.0.0 or yarn >= 1.22.0
+Google Cloud Platform account
+```
 
-### Environment Variables
+### Environment Setup
 
-Create a `.env.local` file in the root directory:
+Create `.env.local`:
 
 ```env
 GOOGLE_SHEETS_PRIVATE_KEY=your_private_key
@@ -55,79 +80,92 @@ NEXTAUTH_SECRET=your_nextauth_secret
 NEXTAUTH_URL=http://localhost:3000
 ```
 
-### Installation
-
-1. Clone the repository:
+### Quick Start
 
 ```bash
-git clone https://github.com/yourusername/czest-analytics.git
-cd czest-analytics
-```
+# Clone repository
+git clone https://github.com/ShalomObongo/czest-analytics.git
 
-2. Install dependencies:
-
-```bash
+# Install dependencies
 npm install
-```
 
-3. Run the development server:
-
-```bash
+# Launch development server
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+## 🏗 Architecture
 
-## 🛠️ Tech Stack
-
-- **Framework**: Next.js 15.0
-- **Authentication**: NextAuth.js with session management
-- **UI Components**: 
-  - Radix UI for accessible components
-  - Tailwind CSS for styling
-  - Lucide React for icons
-- **Data Management**:
-  - Google Sheets API for data storage
-  - Custom caching layer for performance
-  - Rate limiting implementation
-- **Form Handling**: React Hook Form with Zod validation
-- **Type Safety**: Full TypeScript implementation
-- **Date Handling**: date-fns for date manipulation
-- **State Management**: React hooks and context
-
-## 📊 Data Structure
-
-### Store Management
-Each store's data is organized in separate sheets with the following structure:
-- **ID**: Unique identifier for each entry
-- **Date**: Timestamp of the entry
-- **Type**: Transaction type
-- **Amount**: Transaction amount
-- **Description**: Additional details
-- **Category**: Transaction category
+### Component Structure
+```
+src/
+├── app/
+│   ├── (auth)/
+│   │   └── login/
+│   ├── (dashboard)/
+│   │   ├── dashboard/
+│   │   ├── inventory/
+│   │   ├── analytics/
+│   │   └── settings/
+│   └── api/
+├── components/
+│   ├── ui/
+│   └── dashboard/
+│       ├── inventory/
+│       └── analytics/
+```
 
 ### Product Categories
-- **Refill Bottles**: Water refill containers (20L, 10L, 5L)
-- **New Bottles**: Fresh bottled water products
-- **Dispensers**: Water dispensing equipment
-- **Accessories**: Additional water-related products
+- **Refill Bottles**: 20L, 10L, 5L containers
+- **New Bottles**: Full Crate, 500ml Pack, 1L Pack
+- **Dispensers**: Hot & Cold, Normal, Stand
+- **Accessories**: Water Pump, Parts, Caps
 
-## 🔒 Security Features
+### Store Locations
+- Kilimani
+- South C
+- Obama
+- Homa Bay
 
-- **Authentication**: NextAuth.js with secure session management
-- **API Security**: 
-  - JWT-based authentication for Google Sheets API
-  - Environment variable protection
-  - Rate limiting and request throttling
-- **Data Protection**:
-  - Secure credential management
-  - Request validation
-  - Error handling with exponential backoff
+## 🎨 UI Components
+
+### Dashboard Elements
+- **Store Overview**: Real-time performance metrics
+- **Transaction Input**: Natural language command processing
+- **Inventory Management**: 
+  - Stock Management Interface
+  - Delivery Tracking System
+- **Analytics**: 
+  - Store Comparison Charts
+  - Revenue Analytics
+  - Performance Metrics
+
+## 🔒 Security & Performance
+
+### Authentication
+- NextAuth.js powered security
+- Session-based authentication
+- Protected API routes
+
+### Performance Optimization
+- Static and dynamic rendering strategies
+- Intelligent data caching
+- Optimized asset delivery
+- Type-safe operations with TypeScript
+
+## 📚 Documentation
+
+Detailed documentation for components and API endpoints is available in the `/docs` directory.
 
 ## 🤝 Contributing
 
-This is a private project. Contact the project maintainers for contribution guidelines.
+This is a private project. Please contact project maintainers for contribution guidelines.
 
 ## 📝 License
 
-This project is private and proprietary. All rights reserved.
+Private and proprietary. All rights reserved.
+
+---
+
+<div align="center">
+  <sub>Built with by Shalom</sub>
+</div>

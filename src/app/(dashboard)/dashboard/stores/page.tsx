@@ -24,7 +24,7 @@ export default async function StoresPage() {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight text-white">Stores</h2>
+        <h2 className="text-3xl font-bold tracking-tight">Stores</h2>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -43,7 +43,7 @@ export default async function StoresPage() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="bg-slate-800/50 border-slate-700 col-span-2">
+        <Card className="bg-card col-span-2">
           <CardHeader>
             <CardTitle>Store Performance</CardTitle>
           </CardHeader>
@@ -51,17 +51,17 @@ export default async function StoresPage() {
             <div className="space-y-8">
               {stores.map((store) => (
                 <div key={store.id} className="flex items-center">
-                  <Store className="h-4 w-4 text-blue-400 mr-2" />
+                  <Store className="h-4 w-4 text-muted-foreground mr-2" />
                   <div className="w-full">
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium text-slate-200">{store.name}</p>
-                      <p className="text-sm text-emerald-400">
+                      <p className="text-sm font-medium">{store.name}</p>
+                      <p className="text-sm text-purple-500">
                         {store.metrics.trends.revenue}
                       </p>
                     </div>
-                    <div className="mt-2 h-2 w-full rounded-full bg-slate-700">
+                    <div className="mt-2 h-2 w-full rounded-full bg-muted">
                       <div
-                        className="h-2 rounded-full bg-blue-400"
+                        className="h-2 rounded-full bg-gradient-to-r from-purple-500 to-teal-500"
                         style={{
                           width: `${Math.min(
                             (parseFloat(store.metrics.today.revenue) / 200000) * 100,
@@ -76,15 +76,15 @@ export default async function StoresPage() {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card className="bg-card">
           <CardHeader>
             <CardTitle>Total Sales Today</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold">
               {stores.reduce((sum, store) => sum + store.metrics.today.sales, 0)}
             </div>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               Across all stores
             </p>
           </CardContent>

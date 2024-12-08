@@ -30,7 +30,7 @@ export function StoreOverview({ store }: StoreOverviewProps) {
     <div>
       <h3 className="text-lg font-semibold mb-4">{store.name}</h3>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card >
+        <Card className="bg-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Today's Revenue
@@ -50,7 +50,7 @@ export function StoreOverview({ store }: StoreOverviewProps) {
           </CardContent>
         </Card>
 
-        <Card >
+        <Card className="bg-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Today's Sales
@@ -63,7 +63,7 @@ export function StoreOverview({ store }: StoreOverviewProps) {
           </CardContent>
         </Card>
 
-        <Card >
+        <Card className="bg-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Today's Expenses
@@ -83,7 +83,7 @@ export function StoreOverview({ store }: StoreOverviewProps) {
           </CardContent>
         </Card>
 
-        <Card >
+        <Card className="bg-card">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Today's Profit
