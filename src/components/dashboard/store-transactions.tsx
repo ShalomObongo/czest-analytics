@@ -51,33 +51,33 @@ const transactions = [
 export function StoreTransactions({ storeId }: StoreTransactionsProps) {
   return (
     <div className="space-y-6">
-      <Card className="bg-slate-800/50 border-slate-700">
+      <Card >
         <CardHeader>
-          <CardTitle className="text-slate-200">Recent Transactions</CardTitle>
+          <CardTitle>Recent Transactions</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
-              <TableRow className="border-slate-700 hover:bg-slate-800/50">
-                <TableHead className="text-slate-200">Type</TableHead>
-                <TableHead className="text-slate-200">Description</TableHead>
-                <TableHead className="text-slate-200">Category</TableHead>
-                <TableHead className="text-slate-200">Date</TableHead>
-                <TableHead className="text-right text-slate-200">Amount</TableHead>
+              <TableRow className="hover:bg-muted/50">
+                <TableHead>Type</TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead className="text-right">Amount</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {transactions.map((transaction) => (
                 <TableRow
                   key={transaction.id}
-                  className="border-slate-700 hover:bg-slate-800/50"
+                  className="hover:bg-muted/50"
                 >
                   <TableCell className="font-medium">
                     <span className="flex items-center gap-2">
                       {transaction.type === "REVENUE" ? (
-                        <TrendingUp className="h-4 w-4 text-emerald-400" />
+                        <TrendingUp className="h-4 w-4 text-purple-500" />
                       ) : (
-                        <TrendingDown className="h-4 w-4 text-red-400" />
+                        <TrendingDown className="h-4 w-4 text-destructive" />
                       )}
                       {transaction.type}
                     </span>
@@ -89,8 +89,8 @@ export function StoreTransactions({ storeId }: StoreTransactionsProps) {
                     <span
                       className={
                         transaction.type === "REVENUE"
-                          ? "text-emerald-400"
-                          : "text-red-400"
+                          ? "text-purple-500"
+                          : "text-destructive"
                       }
                     >
                       KES {transaction.amount}

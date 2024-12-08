@@ -29,7 +29,6 @@ const timeframeOptions = [
 ]
 
 export function SalesAnalytics({ data, timeframe, onTimeframeChange }: SalesAnalyticsProps) {
-  // Assuming average sale is 100 KES
   const AVERAGE_SALE = 100
   const totalSales = data.stores.reduce((sum, store) => sum + Math.floor(store.revenue / AVERAGE_SALE), 0)
   const averageSales = totalSales / data.stores.length
@@ -38,8 +37,8 @@ export function SalesAnalytics({ data, timeframe, onTimeframeChange }: SalesAnal
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h3 className="text-2xl font-bold text-white">Sales Analysis</h3>
-          <p className="text-sm text-slate-400">
+          <h3 className="text-2xl font-bold">Sales Analysis</h3>
+          <p className="text-sm text-muted-foreground">
             Comprehensive view of sales performance
           </p>
         </div>
@@ -47,15 +46,14 @@ export function SalesAnalytics({ data, timeframe, onTimeframeChange }: SalesAnal
           value={timeframe} 
           onValueChange={(value) => onTimeframeChange(value as "TODAY" | "THIS_WEEK" | "THIS_MONTH")}
         >
-          <SelectTrigger className="w-[180px] bg-slate-800/50 border-slate-700 text-slate-200">
+          <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select time range" />
           </SelectTrigger>
-          <SelectContent className="bg-slate-800 border-slate-700">
+          <SelectContent>
             {timeframeOptions.map((option) => (
               <SelectItem
                 key={option.value}
                 value={option.value}
-                className="text-slate-200 focus:bg-slate-700 focus:text-slate-200"
               >
                 {option.label}
               </SelectItem>
@@ -65,70 +63,70 @@ export function SalesAnalytics({ data, timeframe, onTimeframeChange }: SalesAnal
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-200">
+            <CardTitle className="text-sm font-medium">
               Total Sales
             </CardTitle>
-            <ShoppingCart className="h-4 w-4 text-emerald-400" />
+            <ShoppingCart className="h-4 w-4 text-emerald-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{totalSales}</div>
-            <p className="text-xs text-slate-400">
+            <div className="text-2xl font-bold">{totalSales}</div>
+            <p className="text-xs text-muted-foreground">
               {data.period.startDate} to {data.period.endDate}
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-200">
+            <CardTitle className="text-sm font-medium">
               Average Sales
             </CardTitle>
-            <ShoppingCart className="h-4 w-4 text-blue-400" />
+            <ShoppingCart className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold">
               {Math.floor(averageSales)}
             </div>
-            <p className="text-xs text-slate-400">Per store</p>
+            <p className="text-xs text-muted-foreground">Per store</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-200">
+            <CardTitle className="text-sm font-medium">
               Highest Sales
             </CardTitle>
-            <TrendingUp className="h-4 w-4 text-emerald-400" />
+            <TrendingUp className="h-4 w-4 text-emerald-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold">
               {Math.max(...data.stores.map(s => Math.floor(s.revenue / AVERAGE_SALE)))}
             </div>
-            <p className="text-xs text-slate-400">Best performing store</p>
+            <p className="text-xs text-muted-foreground">Best performing store</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-200">
+            <CardTitle className="text-sm font-medium">
               Lowest Sales
             </CardTitle>
-            <TrendingUp className="h-4 w-4 text-red-400" />
+            <TrendingUp className="h-4 w-4 text-red-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold">
               {Math.min(...data.stores.map(s => Math.floor(s.revenue / AVERAGE_SALE)))}
             </div>
-            <p className="text-xs text-slate-400">Needs attention</p>
+            <p className="text-xs text-muted-foreground">Needs attention</p>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="bg-slate-800/50 border-slate-700">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-slate-200">Sales Distribution</CardTitle>
+          <CardTitle>Sales Distribution</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
@@ -138,20 +136,20 @@ export function SalesAnalytics({ data, timeframe, onTimeframeChange }: SalesAnal
                 <div key={store.store} className="space-y-2">
                   <div className="flex items-center justify-between">
                     <div className="space-y-1">
-                      <p className="text-sm font-medium leading-none text-slate-200">
+                      <p className="text-sm font-medium leading-none">
                         {store.store}
                       </p>
-                      <p className="text-sm text-slate-400">
+                      <p className="text-sm text-muted-foreground">
                         {storeSales} sales
                       </p>
                     </div>
-                    <p className="text-blue-400">
+                    <p className="text-blue-500">
                       {((storeSales / totalSales) * 100).toFixed(1)}%
                     </p>
                   </div>
-                  <div className="h-2 rounded-full bg-slate-700">
+                  <div className="h-2 rounded-full bg-muted">
                     <div
-                      className="h-2 rounded-full bg-blue-400"
+                      className="h-2 rounded-full bg-blue-500"
                       style={{
                         width: `${(storeSales / totalSales) * 100}%`,
                       }}

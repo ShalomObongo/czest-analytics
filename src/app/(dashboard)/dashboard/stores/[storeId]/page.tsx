@@ -1,10 +1,6 @@
 import { notFound } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { StoreOverview } from "@/components/dashboard/store-overview"
-import { StoreTransactions } from "@/components/dashboard/store-transactions"
-import { StoreInventory } from "@/components/dashboard/store-inventory"
-import { STORE_SHEETS } from "@/lib/sheets/sheets.config"
 
 interface StorePageProps {
   params: {

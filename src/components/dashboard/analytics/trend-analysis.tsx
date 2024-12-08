@@ -46,8 +46,8 @@ export function TrendAnalysis({ data, timeframe, onTimeframeChange }: TrendAnaly
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h3 className="text-2xl font-bold text-white">Performance Trends</h3>
-          <p className="text-sm text-slate-400">
+          <h3 className="text-2xl font-bold">Performance Trends</h3>
+          <p className="text-sm text-muted-foreground">
             Analyzing store performance metrics
           </p>
         </div>
@@ -55,15 +55,14 @@ export function TrendAnalysis({ data, timeframe, onTimeframeChange }: TrendAnaly
           value={timeframe} 
           onValueChange={(value) => onTimeframeChange(value as "TODAY" | "THIS_WEEK" | "THIS_MONTH")}
         >
-          <SelectTrigger className="w-[180px] bg-slate-800/50 border-slate-700 text-slate-200">
+          <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select time range" />
           </SelectTrigger>
-          <SelectContent className="bg-slate-800 border-slate-700">
+          <SelectContent>
             {timeframeOptions.map((option) => (
               <SelectItem
                 key={option.value}
                 value={option.value}
-                className="text-slate-200 focus:bg-slate-700 focus:text-slate-200"
               >
                 {option.label}
               </SelectItem>
@@ -73,70 +72,70 @@ export function TrendAnalysis({ data, timeframe, onTimeframeChange }: TrendAnaly
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-200">
-              Best Profit Margin
+            <CardTitle className="text-sm font-medium">
+              Best Performer
             </CardTitle>
-            <TrendingUp className="h-4 w-4 text-emerald-400" />
+            <TrendingUp className="h-4 w-4 text-emerald-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">
-              {bestPerformer.profitMargin}%
-            </div>
-            <p className="text-xs text-slate-400">{bestPerformer.store}</p>
+            <div className="text-2xl font-bold">{bestPerformer.store}</div>
+            <p className="text-xs text-muted-foreground">
+              {bestPerformer.profitMargin}% profit margin
+            </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-200">
-              Lowest Profit Margin
+            <CardTitle className="text-sm font-medium">
+              Needs Improvement
             </CardTitle>
-            <TrendingDown className="h-4 w-4 text-red-400" />
+            <TrendingDown className="h-4 w-4 text-red-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">
-              {worstPerformer.profitMargin}%
-            </div>
-            <p className="text-xs text-slate-400">{worstPerformer.store}</p>
+            <div className="text-2xl font-bold">{worstPerformer.store}</div>
+            <p className="text-xs text-muted-foreground">
+              {worstPerformer.profitMargin}% profit margin
+            </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-200">
+            <CardTitle className="text-sm font-medium">
               Average Profit Margin
             </CardTitle>
-            <TrendingUp className="h-4 w-4 text-blue-400" />
+            <TrendingUp className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold">
               {(storeMetrics.reduce((sum, store) => sum + parseFloat(store.profitMargin), 0) / storeMetrics.length).toFixed(1)}%
             </div>
-            <p className="text-xs text-slate-400">Across all stores</p>
+            <p className="text-xs text-muted-foreground">Across all stores</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-200">
+            <CardTitle className="text-sm font-medium">
               Average Expense Ratio
             </CardTitle>
-            <TrendingDown className="h-4 w-4 text-amber-400" />
+            <TrendingDown className="h-4 w-4 text-amber-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold">
               {(storeMetrics.reduce((sum, store) => sum + parseFloat(store.expenseRatio), 0) / storeMetrics.length).toFixed(1)}%
             </div>
-            <p className="text-xs text-slate-400">Of revenue</p>
+            <p className="text-xs text-muted-foreground">Of revenue</p>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="bg-slate-800/50 border-slate-700">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-slate-200">Store Performance Metrics</CardTitle>
+          <CardTitle>Store Performance Metrics</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
@@ -144,20 +143,20 @@ export function TrendAnalysis({ data, timeframe, onTimeframeChange }: TrendAnaly
               <div key={store.store} className="space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
-                    <p className="text-sm font-medium leading-none text-slate-200">
+                    <p className="text-sm font-medium leading-none">
                       {store.store}
                     </p>
-                    <div className="flex gap-4 text-sm text-slate-400">
+                    <div className="flex gap-4 text-sm text-muted-foreground">
                       <span>Profit: {store.profitMargin}%</span>
                       <span>Expenses: {store.expenseRatio}%</span>
                       <span>Revenue Share: {store.revenueShare}%</span>
                     </div>
                   </div>
-                  <TrendingUp className={`h-4 w-4 ${parseFloat(store.profitMargin) >= 20 ? 'text-emerald-400' : 'text-red-400'}`} />
+                  <TrendingUp className={`h-4 w-4 ${parseFloat(store.profitMargin) >= 20 ? 'text-emerald-500' : 'text-red-500'}`} />
                 </div>
-                <div className="h-2 rounded-full bg-slate-700">
+                <div className="h-2 rounded-full bg-muted">
                   <div
-                    className="h-2 rounded-full bg-emerald-400"
+                    className="h-2 rounded-full bg-emerald-500"
                     style={{
                       width: `${store.profitMargin}%`,
                     }}

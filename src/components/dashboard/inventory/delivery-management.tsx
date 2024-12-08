@@ -74,85 +74,77 @@ export function DeliveryManagement() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "Delivered":
-        return <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+        return <CheckCircle2 className="h-4 w-4 text-emerald-500" />
       case "In Transit":
-        return <Truck className="h-4 w-4 text-blue-400" />
+        return <Truck className="h-4 w-4 text-blue-500" />
       case "Pending":
-        return <Clock className="h-4 w-4 text-amber-400" />
+        return <Clock className="h-4 w-4 text-amber-500" />
       default:
-        return <AlertTriangle className="h-4 w-4 text-red-400" />
+        return <AlertTriangle className="h-4 w-4 text-red-500" />
     }
   }
 
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-200">
+            <CardTitle className="text-sm font-medium">
               Active Deliveries
             </CardTitle>
-            <Truck className="h-4 w-4 text-blue-400" />
+            <Truck className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">2</div>
-            <p className="text-xs text-slate-400">In transit</p>
+            <div className="text-2xl font-bold">2</div>
+            <p className="text-xs text-muted-foreground">In transit</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800/50 border-slate-700">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-200">
+            <CardTitle className="text-sm font-medium">
               Pending Deliveries
             </CardTitle>
-            <Clock className="h-4 w-4 text-amber-400" />
+            <Clock className="h-4 w-4 text-amber-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">1</div>
-            <p className="text-xs text-slate-400">Awaiting dispatch</p>
+            <div className="text-2xl font-bold">1</div>
+            <p className="text-xs text-muted-foreground">Awaiting dispatch</p>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="bg-slate-800/50 border-slate-700">
+      <Card>
         <CardHeader>
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <CardTitle className="text-slate-200">Delivery Status</CardTitle>
+            <CardTitle>Delivery Status</CardTitle>
             <div className="flex flex-1 gap-4 md:justify-end">
               <div className="flex items-center gap-4">
                 <div className="relative flex-1 md:w-60">
-                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-slate-400" />
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
                     placeholder="Search deliveries..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-8 bg-slate-900/50 border-slate-700 text-slate-200 placeholder:text-slate-400"
+                    className="pl-8"
                   />
                 </div>
                 <Select
                   value={selectedStatus}
                   onValueChange={setSelectedStatus}
                 >
-                  <SelectTrigger className="w-[180px] bg-slate-900/50 border-slate-700 text-slate-200">
+                  <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Filter status" />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-800 border-slate-700">
-                    <SelectItem value="all" className="text-slate-200 focus:bg-slate-700 focus:text-slate-200">
-                      All Status
-                    </SelectItem>
-                    <SelectItem value="In Transit" className="text-slate-200 focus:bg-slate-700 focus:text-slate-200">
-                      In Transit
-                    </SelectItem>
-                    <SelectItem value="Delivered" className="text-slate-200 focus:bg-slate-700 focus:text-slate-200">
-                      Delivered
-                    </SelectItem>
-                    <SelectItem value="Pending" className="text-slate-200 focus:bg-slate-700 focus:text-slate-200">
-                      Pending
-                    </SelectItem>
+                  <SelectContent>
+                    <SelectItem value="all">All Status</SelectItem>
+                    <SelectItem value="In Transit">In Transit</SelectItem>
+                    <SelectItem value="Delivered">Delivered</SelectItem>
+                    <SelectItem value="Pending">Pending</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button>
                 <Plus className="h-4 w-4 mr-2" />
                 New Delivery
               </Button>
@@ -162,22 +154,22 @@ export function DeliveryManagement() {
         <CardContent>
           <Table>
             <TableHeader>
-              <TableRow className="border-slate-700 hover:bg-slate-800/50">
-                <TableHead className="text-slate-200">Order #</TableHead>
-                <TableHead className="text-slate-200">Store</TableHead>
-                <TableHead className="text-slate-200">Items</TableHead>
-                <TableHead className="text-slate-200">Driver</TableHead>
-                <TableHead className="text-slate-200">ETA</TableHead>
-                <TableHead className="text-right text-slate-200">Status</TableHead>
+              <TableRow className="hover:bg-muted/50">
+                <TableHead>Order #</TableHead>
+                <TableHead>Store</TableHead>
+                <TableHead>Items</TableHead>
+                <TableHead>Driver</TableHead>
+                <TableHead>ETA</TableHead>
+                <TableHead className="text-right">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredDeliveries.map((delivery) => (
                 <TableRow
                   key={delivery.id}
-                  className="border-slate-700 hover:bg-slate-800/50"
+                  className="hover:bg-muted/50"
                 >
-                  <TableCell className="font-medium text-slate-200">
+                  <TableCell className="font-medium">
                     {delivery.orderNumber}
                   </TableCell>
                   <TableCell>{delivery.store}</TableCell>

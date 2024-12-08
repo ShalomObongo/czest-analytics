@@ -15,33 +15,33 @@ interface StoreCardProps {
 export function StoreCard({ store }: StoreCardProps) {
   return (
     <Link href={`/dashboard/stores/${store.id}`}>
-      <Card className="bg-slate-800/50 border-slate-700 hover:bg-slate-800/70 transition-colors cursor-pointer">
+      <Card className="bg-card hover:bg-muted/50 transition-colors cursor-pointer">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-lg font-medium text-slate-200">
+          <CardTitle className="text-lg font-medium">
             {store.name}
           </CardTitle>
-          <Store className="h-4 w-4 text-blue-400" />
+          <Store className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div className="space-y-2">
-              <p className="text-sm text-slate-400">Revenue Today</p>
+              <p className="text-sm text-muted-foreground">Revenue Today</p>
               <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold text-white">
+                <span className="text-2xl font-bold">
                   KES {store.revenue}
                 </span>
-                <span className="text-xs text-emerald-400 flex items-center gap-1">
+                <span className="text-xs text-emerald-500 flex items-center gap-1">
                   <TrendingUp className="h-3 w-3" />
                   {store.trend}
                 </span>
               </div>
             </div>
-            <div className="flex items-center gap-2 pt-4 border-t border-slate-700">
-              <div className="flex items-center gap-2 text-slate-400">
+            <div className="flex items-center gap-2 pt-4 border-t border-border">
+              <div className="flex items-center gap-2 text-muted-foreground">
                 <ShoppingCart className="h-4 w-4" />
                 <span className="text-sm">Sales</span>
               </div>
-              <p className="text-white font-semibold ml-auto">{store.sales}</p>
+              <p className="font-semibold ml-auto">{store.sales}</p>
             </div>
           </div>
         </CardContent>

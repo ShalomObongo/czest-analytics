@@ -83,31 +83,29 @@ export function StoreInventory({ storeId }: StoreInventoryProps) {
         </Card>
       </div>
 
-      <Card className="bg-slate-800/50 border-slate-700">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-slate-200">Inventory Status</CardTitle>
+          <CardTitle>Inventory Status</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
-              <TableRow className="border-slate-700 hover:bg-slate-800/50">
-                <TableHead className="text-slate-200">Product</TableHead>
-                <TableHead className="text-slate-200">Type</TableHead>
-                <TableHead className="text-right text-slate-200">In Stock</TableHead>
-                <TableHead className="text-right text-slate-200">Target</TableHead>
-                <TableHead className="text-right text-slate-200">
-                  Reorder Point
-                </TableHead>
-                <TableHead className="text-right text-slate-200">Status</TableHead>
+              <TableRow className="hover:bg-muted/50">
+                <TableHead>Product</TableHead>
+                <TableHead>Type</TableHead>
+                <TableHead className="text-right">In Stock</TableHead>
+                <TableHead className="text-right">Target</TableHead>
+                <TableHead className="text-right">Reorder Point</TableHead>
+                <TableHead className="text-right">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {inventory.map((item) => (
                 <TableRow
                   key={item.id}
-                  className="border-slate-700 hover:bg-slate-800/50"
+                  className="hover:bg-muted/50"
                 >
-                  <TableCell className="font-medium text-slate-200">
+                  <TableCell className="font-medium">
                     {item.name}
                   </TableCell>
                   <TableCell>{item.type}</TableCell>
@@ -118,8 +116,8 @@ export function StoreInventory({ storeId }: StoreInventoryProps) {
                     <span
                       className={`inline-flex items-center gap-1 ${
                         item.status === "OK"
-                          ? "text-emerald-400"
-                          : "text-amber-400"
+                          ? "text-emerald-500"
+                          : "text-amber-500"
                       }`}
                     >
                       {item.status === "OK" ? (
