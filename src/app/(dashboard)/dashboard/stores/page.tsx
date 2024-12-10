@@ -4,18 +4,36 @@ import { Store } from "lucide-react"
 import { STORE_SHEETS } from "@/lib/sheets/sheets.config"
 
 async function getStoresData() {
-  const storeIds = Object.keys(STORE_SHEETS).map(key => key.toLowerCase())
-  const stores = await Promise.all(
-    storeIds.map(async (id) => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/stores/${id}`, {
-        next: { revalidate: 60 }, // Revalidate every minute
+  try {
+    const storeIds = Object.keys(STORE_SHEETS).map(key => key.toLowerCase())
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 
+      (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '')
+    
+    const stores = await Promise.all(
+      storeIds.map(async (id) => {
+        try {
+          const res = await fetch(`${baseUrl}/api/stores/${id}`, {
+            next: { revalidate: 60 },
+            // Add cache control headers
+            headers: {
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
+            },
+          })
+          
+          if (!res.ok) return null
+          return res.json()
+        } catch (error) {
+          console.error(`Failed to fetch store ${id}:`, error)
+          return null
+        }
       })
-      if (!res.ok) return null
-      return res.json()
-    })
-  )
+    )
 
-  return stores.filter(Boolean)
+    return stores.filter(Boolean)
+  } catch (error) {
+    console.error('Failed to get stores data:', error)
+    return []
+  }
 }
 
 export default async function StoresPage() {
