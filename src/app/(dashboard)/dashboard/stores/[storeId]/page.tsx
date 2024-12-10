@@ -1,16 +1,24 @@
 import { notFound } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { type Metadata } from "next"
 
-type PageProps = {
-  params: Promise<{
-    storeId: string
-  }>
-  searchParams?: { [key: string]: string | string[] | undefined }
+// Define the correct props interface
+interface StorePageProps {
+  params: Promise<{ storeId: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export default async function StorePage({ params, searchParams }: PageProps) {
-  const { storeId } = await params
+// Add the metadata export
+export const metadata: Metadata = {
+  title: "Store Details",
+  description: "View and manage store details",
+}
+
+// Update the component to be a Server Component
+export default async function StorePage(props: StorePageProps) {
+  // Await the params
+  const { storeId } = await props.params
   const storeData = await getStoreData(storeId)
 
   if (!storeData) {

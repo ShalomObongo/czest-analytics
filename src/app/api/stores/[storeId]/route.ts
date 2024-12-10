@@ -9,19 +9,12 @@ import {
 import { STORE_SHEETS, type StoreSheet } from "@/lib/sheets/sheets.config"
 import { formatDate, getCurrentDate } from "@/lib/utils"
 
-interface StoreParams {
-  params: {
-    storeId: string
-  }
-}
-
 export async function GET(
   request: Request,
-  { params }: { params: { storeId: string } }
+  { params }: { params: Promise<{ storeId: string }> }
 ) {
   try {
-    // Await the storeId parameter
-    const storeId = params.storeId;
+    const { storeId } = await params;
     const storeKey = storeId.toUpperCase() as keyof typeof STORE_SHEETS
     const storeName = STORE_SHEETS[storeKey]
 
